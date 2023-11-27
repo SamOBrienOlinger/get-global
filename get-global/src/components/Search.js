@@ -22,7 +22,50 @@ const Search = () => {
 
   return (
     <div className="search-container">
-      {/* ... (existing JSX) */}
+      <div className="input-button-container">
+        <input
+          type="text"
+          placeholder="Enter country name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      {countryInfo && !loading ? (
+        <div className="country-container">
+          <p>
+            <span>Capital:</span> {countryInfo.capital}
+          </p>
+          <p>
+            <span>Population:</span> {countryInfo.population}
+          </p>
+          <p>
+            <span>Currency:</span>{' '}
+            {Object.keys(countryInfo.currencies || {}).map((currencyCode) => {
+              const currency = countryInfo.currencies[currencyCode];
+              return (
+                <span key={currencyCode}>
+                  {currencyCode} ({currency?.name || 'Unknown Name'}){' '}
+                  {currency?.symbol && `(${currency.symbol})`}
+                </span>
+              );
+            }) || 'N/A'}
+          </p>
+          <p>
+            <span>Languages:</span> {countryInfo.languages}
+          </p>
+          {countryInfo.flag && (
+            <div>
+              <span>Flag:</span>
+              <img src={countryInfo.flag} alt="Flag" width="50" height="30" />
+            </div>
+          )}
+          <p>
+            <span>Continent:</span> {countryInfo.continents}
+          </p>
+        </div>
+      ) : null}
+      {loading && <p className="loading">Loading...</p>}
     </div>
   );
 };
