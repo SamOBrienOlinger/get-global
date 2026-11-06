@@ -4,7 +4,7 @@ A country-information coding challenge with a React search interface and a separ
 
 **React · Node.js · Express**
 
-[Getting started](#getting-started) · [Repository guide](#repository-guide) · [Checks](#checks-and-review) · [Credits](#credits-and-reuse)
+[Getting started](#getting-started) · [Data model](#entity-relationship-diagram) · [Repository guide](#repository-guide) · [Checks](#checks-and-review) · [Credits](#credits-and-reuse)
 
 ## What you can explore
 
@@ -13,6 +13,32 @@ A country-information coding challenge with a React search interface and a separ
 - Loading state around the API request.
 
 > **Project notes:** The client calls http://localhost:3001/country?name=.... Run the server as well as the frontend, and inspect the response shape when a country has multiple matches.
+
+## Entity relationship diagram
+
+A React search sends a name to the Express service. The service takes the first REST Countries match and returns capital, population, continent, languages, flag and a map of currencies keyed by code. [React search](get-global/src/components/Search.js) · [Express country route](server/index.js)
+
+```mermaid
+erDiagram
+    accTitle: Get Global lookup and country response
+    accDescr: A lookup can return a country response. Each response contains a map of currency entries.
+    "Country Lookup" ||--o| "Country Response" : returns
+    "Country Response" ||--o{ "Currency Entry" : includes
+
+    "Country Lookup" {
+        string name
+    }
+    "Country Response" {
+        string capital
+        string continents
+        url flag
+    }
+    "Currency Entry" {
+        string code
+        string name
+        string symbol
+    }
+```
 
 ## Getting started
 
